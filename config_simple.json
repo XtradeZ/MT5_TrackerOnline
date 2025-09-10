@@ -1,0 +1,17 @@
+{
+    "app_settings": {
+        "window_size": [1400, 900],
+        "window_title": "Registrador de Operaciones MT5 - Versión Simple"
+    },
+    "export_settings": {
+        "output_folder": "output",
+        "columns": ["Ticket", "Símbolo", "Tipo", "Volumen", "Precio", "Beneficio", "Fecha Apertura", "Fecha Cierre", "Comentario"]
+    },
+    "mt5_settings": {
+        "get_all_trades": true,
+        "trade_types": {
+            "0": "COMPRA",
+            "1": "VENTA"
+        }
+    }
+} 
