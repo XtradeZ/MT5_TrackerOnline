@@ -1,3 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+venv/
+
+# PyInstaller build artifacts
+build/
+dist/
+*.spec
+*.exe
+
+# Local releases/build artifacts
+releases/
+*.zip
+checksums.txt
+update.json
+
+# User data (exports and comments)
+output/
+
+# OS files
+.DS_Store
+Thumbs.db
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -28,7 +54,7 @@ MANIFEST
 # PyInstaller
 #  Usually these files are created by pyinstaller, if you want to customize it
 #  then edit spec file and remove committed files.
-*.spec
+#*.spec
 
 # Installer logs
 pip-log.txt

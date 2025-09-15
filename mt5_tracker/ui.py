@@ -13,9 +13,8 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
                              QLabel, QTextEdit, QProgressBar, QMessageBox, QSplitter,
                              QGroupBox, QLineEdit, QComboBox, QHeaderView, QInputDialog,
                              QMenu)
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QFont, QColor, QIcon
 from PyQt5.QtCore import QThread, pyqtSignal, Qt, QTimer
-from PyQt5.QtGui import QFont, QColor, QIcon
 
 from .connector import MT5Connector
 from .tracker import TradeTracker
@@ -45,7 +44,7 @@ class MT5TrackerApp(QMainWindow):
     def init_ui(self):
         """Inicializa la interfaz de usuario"""
         app_settings = self.config.get('app_settings', {})
-        window_title = app_settings.get('window_title', "MT5 Tracker")
+        window_title = app_settings.get('window_title', "MT5 Tracker :)")
         window_size = app_settings.get('window_size', [1600, 1000])
 
         self.setWindowTitle(window_title)
