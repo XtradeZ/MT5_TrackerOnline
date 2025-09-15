@@ -1,7 +1,7 @@
 {
     "app_settings": {
         "window_size": [1400, 900],
-        "window_title": "Registrador de Operaciones MT5 - Versión Simple"
+        "window_title": "Registrador de Operaciones MT5 - Versión Simple v1.0.1"
     },
     "export_settings": {
         "output_folder": "output",

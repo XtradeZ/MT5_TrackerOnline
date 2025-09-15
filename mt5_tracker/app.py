@@ -7,11 +7,10 @@ Crea la QApplication, instancia la UI y ejecuta el bucle principal.
 
 import sys
 import json
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtCore import Qt
 import tempfile
 import os
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QApplication, QMessageBox
+from PyQt5.QtCore import Qt
 
 from .ui import MT5TrackerApp
 from .updater import Updater, UpdateProgressDialog, UpdateWorker, APP_VERSION
@@ -22,35 +21,34 @@ def handle_update(latest_release):
     """
     Gestiona el proceso de actualización.
     """
-    latest_version = latest_release.get('tag_name', '0.0.0').lstrip('v')
+    latest_version = latest_release.get('version', '0.0.0')
     update_message = f"Nueva versión {latest_version} disponible. ¿Quieres actualizar ahora?"
     
     reply = QMessageBox.question(None, "Actualización Disponible", update_message,
                                  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
     if reply == QMessageBox.Yes:
-        assets = latest_release.get('assets', [])
-        installer_asset = next((a for a in assets if a['name'].endswith('.exe')), None)
-        checksum_asset = next((a for a in assets if 'checksums' in a['name']), None)
+        # Usar las URLs directas del update.json
+        download_url = latest_release.get('url')
+        checksum_url = latest_release.get('checksum_url')
 
-        if not installer_asset or not checksum_asset:
-            QMessageBox.critical(None, "Error de Actualización", "No se encontraron los archivos de instalación.")
+        if not download_url or not checksum_url:
+            QMessageBox.critical(None, "Error de Actualización", "No se encontraron los archivos de actualización (.zip y checksums.txt).")
             return False # Indica que no se pudo actualizar
-
-        download_url = installer_asset['browser_download_url']
-        checksum_url = checksum_asset['browser_download_url']
 
         temp_dir = tempfile.mkdtemp()
         progress_dialog = UpdateProgressDialog()
         
         update_worker = UpdateWorker(download_url, checksum_url, temp_dir)
 
-        def on_finished(installer_path, checksum_path):
+        def on_finished(zip_path, checksum_path):
             progress_dialog.close()
-            if Updater.verify_checksum(installer_path, checksum_path):
-                Updater.run_installer(installer_path)
+            if Updater.verify_checksum(zip_path, checksum_path):
+                QMessageBox.information(None, "Descarga Completada", 
+                                      "Actualización descargada y verificada. La aplicación se reiniciará para completar la actualización.")
+                Updater.run_updater(zip_path)
             else:
-                QMessageBox.critical(None, "Error de Verificación", "El checksum del archivo no coincide. Se cancela la instalación.")
+                QMessageBox.critical(None, "Error de Verificación", "El checksum del archivo no coincide. Se cancela la actualización.")
         
         def on_error(error_message):
             progress_dialog.close()
@@ -88,15 +86,19 @@ def main():
     app = QApplication(sys.argv)
     
     # Comprobar actualizaciones
-    updater = Updater()
-    latest_release = updater.check_for_updates()
-    
-    if latest_release:
-        if not handle_update(latest_release):
-             # Si handle_update devuelve False, significa que la actualización falló
-             # o está en proceso, por lo que no debemos continuar.
-             # Si la actualización fue exitosa, la app ya se habría cerrado.
-             sys.exit(0)
+    try:
+        updater = Updater()
+        latest_release = updater.check_for_updates()
+        
+        if latest_release:
+            if not handle_update(latest_release):
+                 # Si handle_update devuelve False, significa que la actualización falló
+                 # o está en proceso, por lo que no debemos continuar.
+                 # Si la actualización fue exitosa, la app ya se habría cerrado.
+                 sys.exit(0)
+    except Exception as e:
+        print(f"Info: No se pudo verificar actualizaciones: {e}")
+        pass
 
 
     # Cargar configuración
