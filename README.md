@@ -109,6 +109,28 @@ Al abrirse la aplicación:
 4.  Tu historial de operaciones aparecerá en la tabla.
 5.  Usa los botones de exportación para guardar los datos.
 
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la **MIT License** con restricciones adicionales para uso comercial.
+
+### ✅ **Uso Permitido (Gratuito):**
+- Uso personal y educativo
+- Descarga y uso del software
+- Consulta del código fuente
+
+### ❌ **Uso Restringido (Requiere Permiso):**
+- Uso comercial
+- Reventa o redistribución
+- Modificación del software
+- Creación de obras derivadas
+
+### 📋 **Condiciones:**
+- El software se ofrece "tal cual", sin garantías
+- XTRADE es el autor original y debe ser atribuido
+- Para uso comercial, contacta a XTRADE para obtener licencia
+
+Para más detalles, consulta el archivo [LICENSE](LICENSE) en la raíz del proyecto.
+
 ---
 
 **¡Disfruta de un registro de trading más organizado!** 🚀 
