@@ -11,6 +11,7 @@ import tempfile
 import os
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 
 from .ui import MT5TrackerApp
 from .updater import Updater, UpdateProgressDialog, UpdateWorker, APP_VERSION
@@ -67,6 +68,27 @@ def handle_update(latest_release):
 
     return True # Continuar con la app normal
 
+def set_app_icon(app):
+    """Establece el icono de la aplicación para la barra de tareas"""
+    try:
+        # Buscar el icono en assets/images/
+        icon_paths = [
+            'assets/images/Logo.ico',
+            'assets/images/Logo.png'
+        ]
+        
+        for path in icon_paths:
+            if os.path.exists(path):
+                icon = QIcon(path)
+                app.setWindowIcon(icon)
+                print(f"✅ Icono establecido: {path}")
+                return
+                
+        print("⚠️ No se encontró el archivo de icono")
+            
+    except Exception as e:
+        print(f"⚠️ Error al establecer el icono: {e}")
+
 def load_config():
     """Carga la configuración desde el archivo JSON"""
     try:
@@ -84,6 +106,9 @@ def main():
     
     # Crear aplicación PyQt5 primero para poder mostrar diálogos
     app = QApplication(sys.argv)
+    
+    # Establecer el icono de la aplicación
+    set_app_icon(app)
     
     # Comprobar actualizaciones
     try:

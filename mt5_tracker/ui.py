@@ -41,6 +41,27 @@ class MT5TrackerApp(QMainWindow):
         self.log("🚀 Registrador de Operaciones MT5 iniciado")
         self.log("💡 Conecta a MT5 y carga las operaciones")
     
+    def set_window_icon(self):
+        """Establece el icono de la ventana principal"""
+        try:
+            # Buscar el icono en assets/images/
+            icon_paths = [
+                'assets/images/Logo.ico',
+                'assets/images/Logo.png'
+            ]
+            
+            for path in icon_paths:
+                if os.path.exists(path):
+                    icon = QIcon(path)
+                    self.setWindowIcon(icon)
+                    self.log(f"✅ Icono de ventana establecido: {path}")
+                    return
+                    
+            self.log("⚠️ No se encontró el archivo de icono para la ventana")
+                
+        except Exception as e:
+            self.log(f"⚠️ Error al establecer el icono de ventana: {e}")
+    
     def init_ui(self):
         """Inicializa la interfaz de usuario"""
         app_settings = self.config.get('app_settings', {})
@@ -90,6 +111,9 @@ class MT5TrackerApp(QMainWindow):
         # Barra de estado
         self.status_bar = self.statusBar()
         self.status_bar.showMessage("Listo para usar")
+        
+        # Establecer el icono de la ventana (después de inicializar toda la UI)
+        self.set_window_icon()
     
     def create_main_header(self, main_layout):
         """Crea el header principal profesional y moderno"""
